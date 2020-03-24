@@ -1,0 +1,7 @@
+[*]
+end_of_line = lf
+
+[*.{scala, sc, amm}]
+indent_style = space
+indent_size = 2
+charset = utf-8
