@@ -70,7 +70,6 @@ class DbNoteServiceInterpreter extends (NoteServiceA ~> ConnectionIO) {
       run(
         query[Note]
           .filter(_.username == lift(userId))
-          .sortBy(_.id)
           .size
       ).map(_.toInt)
 
