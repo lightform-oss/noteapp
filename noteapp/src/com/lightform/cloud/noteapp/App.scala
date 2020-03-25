@@ -16,6 +16,7 @@ import doobie._
 import doobie.implicits._
 import java.util.concurrent.Executors
 import com.typesafe.config.ConfigFactory
+import com.lightform.cloud.noteapp.directives.CorsDirectives._
 
 object App extends HttpApp with App {
 
@@ -52,8 +53,9 @@ class Dependencies {
 
   val noteRoutes = new NoteRoutes
 
-  val routes =
+  val routes = cors(
     concat(
       noteRoutes.routes
     )
+  )
 }
