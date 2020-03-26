@@ -26,6 +26,7 @@ import akka.http.scaladsl.server.Directive1
 import cats.implicits._
 import com.lightform.cloud.noteapp.services.AuthnService.ValidateToken
 import com.lightform.cloud.noteapp.directives.extractUserId
+import akka.http.scaladsl.server.Route
 
 object App extends App {
   implicit val sys = ActorSystem()
@@ -88,10 +89,13 @@ class Dependencies(implicit ec: ExecutionContext) {
     ValidateToken(token).free.foldMap(authnServiceRunner)
   )
 
-  def routes(authn: Directive1[String]) = cors(
-    concat(
-      new NoteRoutes(authn).routes,
-      authnRoutes.routes
+  def routes(authn: Directive1[String]) =
+    cors(
+      Route.seal(
+        concat(
+          new NoteRoutes(authn).routes,
+          authnRoutes.routes
+        )
+      )
     )
-  )
 }
