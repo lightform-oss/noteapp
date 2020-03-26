@@ -3,9 +3,9 @@ package com.lightform.cloud.noteapp.routing
 import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.Uri.Query
 import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Directive1
 import cats.implicits._
 import cats.~>
-import com.lightform.cloud.noteapp.directives._
 import com.lightform.cloud.noteapp.misc._
 import com.lightform.cloud.noteapp.payloads.requests.{
   CreateNoteRequest,
@@ -21,7 +21,7 @@ import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class NoteRoutes(
+class NoteRoutes(extractUserId: Directive1[String])(
     implicit interpreter: NoteServiceA ~> Future,
     ec: ExecutionContext
 ) extends PlayJsonSupport {

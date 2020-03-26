@@ -19,7 +19,7 @@ object noteapp extends ScalaModule with FlywayModule with DockerModule {
   def scalaVersion = "2.13.1"
 
   val catsV = "2.1.1"
-  val joseV = "0.3.0"
+  val joseV = "0.3.1"
   val doobieV = "0.8.8"
 
   val postgresDriverDep = ivy"org.postgresql:postgresql:42.2.11"
@@ -73,7 +73,7 @@ object noteapp extends ScalaModule with FlywayModule with DockerModule {
   def dbConfig = T.input {
     ConfigFactory.load(ConfigFactory.parseFile((resources().head.path / "application.conf").toIO)
         // this task evaluates in a long running process, so we need to sideload the environment variables into the config
-        .withFallback(ConfigFactory.parseMap(T.ctx().env.asJava))).getConfig("db")
+        .withFallback(ConfigFactory.parseMap(T.ctx().env.asJava))).getConfig("NoteApp.db")
   }(rw, implicitly[mill.define.Ctx])
 
 }
